@@ -13,15 +13,13 @@ class BrowserHistory :
         self.tail = self.tail.next
 
     def back(self, steps) :
-        for _ in range(steps) :
-            if self.tail.prev == None :
-                break
+        while steps > 0 and self.tail.prev != None :
+            steps -= 1
             self.tail = self.tail.prev
         return self.tail.val
 
     def forward(self, steps) :
-        for _ in range(steps) :
-            if self.tail.next == None :
-                break
+        while steps > 0 and self.tail.next != None :
+            steps -= 1
             self.tail = self.tail.next
         return self.tail.val
