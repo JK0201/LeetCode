@@ -1,25 +1,23 @@
-class ListNode :
-    def __init__(self, val = 0, next = None, prev = None) :
-        self.val = val
-        self.next = next
-        self.prev = prev
+class BrowserHistory:
+    def __init__(self, homepage):
+        self.list = [ homepage ]
+        self.idx = 0
         
-class BrowserHistory : 
-    def __init__(self, homepage) :
-        self.head = self.tail = ListNode(val = homepage)
-
-    def visit(self, url) :
-        self.tail.next = ListNode(val = url, prev = self.tail)
-        self.tail = self.tail.next
-
+    def visit(self, url):
+        self.idx += 1
+        self.list.insert(self.idx, url) 
+        for _ in range(self.idx + 1, len(self.list)) :
+            self.list.pop()
+        return None
+        
     def back(self, steps) :
-        while steps > 0 and self.tail.prev != None :
-            steps -= 1
-            self.tail = self.tail.prev
-        return self.tail.val
-
+        self.idx -= steps
+        if self.idx < 0 :
+            self.idx = 0
+        return self.list[self.idx]
+    
     def forward(self, steps) :
-        while steps > 0 and self.tail.next != None :
-            steps -= 1
-            self.tail = self.tail.next
-        return self.tail.val
+        self.idx += steps
+        if self.idx > len(self.list) - 1 :
+            self.idx = len(self.list) - 1
+        return self.list[self.idx]
