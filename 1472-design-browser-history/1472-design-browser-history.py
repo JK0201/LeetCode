@@ -1,27 +1,25 @@
-class NodeList:
-    def __init__(self, val = 0, next = None, prev = None):
-        self.val = val
-        self.next = next
-        self.prev = prev
-
 class BrowserHistory:
 
     def __init__(self, homepage: str):
-        self.head = self.tail = NodeList(val = homepage)
+        self.history = [homepage]
+        self.idx = 0
 
     def visit(self, url: str) -> None:
-        self.tail.next = NodeList(val = url, prev = self.tail)
-        self.tail = self.tail.next        
-        return None
+        self.idx += 1
+        self.history.insert(self.idx, url)
 
+        for _ in range(self.idx + 1, len(self.history)):
+            self.history.pop()
+        
     def back(self, steps: int) -> str:
-        while steps > 0 and self.tail.prev != None:
-            self.tail = self.tail.prev
-            steps -= 1
-        return self.tail.val
+        self.idx -= steps
+        if self.idx < 0:
+            self.idx = 0
+        return self.history[self.idx]
+        
 
     def forward(self, steps: int) -> str:
-        while steps > 0 and self.tail.next != None:
-            self.tail = self.tail.next
-            steps -= 1
-        return self.tail.val
+        self.idx += steps
+        if self.idx > len(self.history) - 1:
+            self.idx = len(self.history) - 1
+        return self.history[self.idx]
