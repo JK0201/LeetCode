@@ -4,23 +4,22 @@ class Solution:
         left = 0
         right = len(list) - 1
         result = []
-        
-        while left < right :
-            total = list[left] + list[right]
+
+        while left < right:
+            calc = list[left] + list[right]
+
+            if calc > target:
+                right -= 1
             
-            if total < target :
+            elif calc < target:
                 left += 1
             
-            elif total > target :
-                right -= 1
-                
-            else :
+            else:
                 break
-            
-        for n in range(len(nums)) :
-            if nums[n] == list[left] or nums[n] == list[right] :
-                result.append(n)
-                
+
+        for idx, num in enumerate(nums):
+            if num == list[left] or num == list[right]:
+                result.append(idx)
+
         result.sort()
         return result
-        
