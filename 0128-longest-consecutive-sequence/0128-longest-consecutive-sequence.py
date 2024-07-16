@@ -7,14 +7,15 @@ class Solution:
             dict[n] = True
         
         for n in dict.keys():
-            count = 1
-            cur_num = n
+            if n - 1 not in dict.keys():
+                count = 0
+                cur_num = n
 
-            while cur_num + 1 in dict.keys():
-                count += 1
-                cur_num += 1
+                while cur_num in dict.keys():
+                    count += 1
+                    cur_num += 1
             
-            if max < count:
-                max = count
+                if max < count:
+                    max = count
         
         return max
