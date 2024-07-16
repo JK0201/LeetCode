@@ -1,11 +1,11 @@
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        list = {}
+        dict = {}
 
         for idx, key in enumerate(nums):
             req = target - key
 
-            if req in list.keys():
-                return [list[req], idx]
+            if req in dict.keys():
+                return [dict[req], idx]
 
-            list[key] = idx
+            dict[key] = idx
