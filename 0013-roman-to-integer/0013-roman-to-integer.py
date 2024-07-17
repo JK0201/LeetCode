@@ -1,63 +1,43 @@
 class Solution:
     def romanToInt(self, s: str) -> int:
-        stack = []
-        nums = []
-        total = 0
+        dict = {
+            'I' : 1,
+            'V' : 5,
+            'X' : 10,
+            'L' : 50,
+            'C' : 100,
+            'D' : 500,
+            'M' : 1000,
+            'IV' : 4,
+            'IX' : 9,
+            'XL' : 40,
+            'XC' : 90,
+            'CD' : 400,
+            'CM' : 900
+        }
 
-        for r in s :
-            if not stack :
+        stack = []
+        total = 0
+        for r in s:
+            if not stack:
                 stack.append(r)
 
-            else :
-                if r == 'V' and stack[-1] == 'I' :
-                    total += 4
-                    stack.pop()
+            elif (r == 'V' or r == 'X') and stack[-1] == 'I':
+                total += dict[stack.pop() + r]
 
-                elif r == 'X' and stack[-1] == 'I' :
-                    total += 9
-                    stack.pop()
+            elif (r == 'L' or r == 'C') and stack[-1] == 'X':
+                total += dict[stack.pop() + r]
 
-                elif r == 'L' and stack[-1] == 'X' :
-                    total += 40
-                    stack.pop()
-
-                elif r == 'C' and stack[-1] == 'X' :
-                    total += 90
-                    stack.pop()
-
-                elif r == 'D' and stack[-1] == 'C' :
-                    total += 400
-                    stack.pop()
-
-                elif r == 'M' and stack[-1] == 'C' :
-                    total += 900
-                    stack.pop()
-                
-                else :
-                    stack.append(r)
-                    
-        for r in stack :
-            if r == 'I' :
-                total += 1
-            
-            elif r == 'V' :
-                total += 5
-            
-            elif r == 'X' :
-                total += 10
-
-            elif r == 'L' :
-                total += 50
-
-            elif r == 'C' :
-                total += 100
-
-            elif r == 'D' :
-                total += 500
+            elif (r == 'D' or r == 'M') and stack[-1] == 'C':
+                total += dict[stack.pop() + r]
 
             else :
-                total += 1000
+                stack.append(r)
+
+        for r in stack:
+            total += dict[r]
 
         return total
+
 
             
