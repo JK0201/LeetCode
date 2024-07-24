@@ -1,10 +1,3 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
 class Solution:
     def dfs(self, cur_node, p, q):
         if cur_node == None:
