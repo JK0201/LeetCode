@@ -1,36 +1,17 @@
-# Definition for singly-linked list.
-class Node:
-    def __init__(self, val = 0, next = None):
-        self.val = val
-        self.next = next
-
-class LinkedList:
-    def __init__(self, val = 0):
-        self.head = self.tail = Node(val = val)
-
 class Solution:
-    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        if not list1 and not list2:
-            return None
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:    
+        head = tail = ListNode()
 
-        li = []
+        while list1 and list2:
+            if list1.val < list2.val:
+                tail.next = list1
+                tail, list1 = tail.next, list1.next
 
-        cur_node = list1
-        while cur_node:
-            li.append(cur_node.val)
-            cur_node = cur_node.next
+            else:
+                tail.next = list2
+                tail, list2 = tail.next, list2.next
 
-        cur_node = list2
-        while cur_node:
-            li.append(cur_node.val)
-            cur_node = cur_node.next
+        if list1 or list2:
+            tail.next = list1 if list1 else list2
 
-        li.sort()
-        node = LinkedList(li[0])
-
-        cur_node = node.tail
-        for i in range(1, len(li)):
-            cur_node.next = Node(li[i])
-            cur_node = cur_node.next
-
-        return node.head
+        return head.next
