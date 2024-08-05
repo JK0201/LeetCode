@@ -1,19 +1,13 @@
-from collections import deque
-
 class Solution:
     def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
-        visited =  [False] * len(rooms)
+        visited = [False] * len(rooms)
 
-        q = deque()
-        q.append(0)
-        visited[0] = True
-
-        while q:
-            cur_v = q.popleft()
-
+        def dfs(cur_v):
+            visited[cur_v] = True
+            
             for v in rooms[cur_v]:
                 if not visited[v]:
-                    visited[v] = True
-                    q.append(v)
+                    dfs(v)
 
-        return False if False in visited else True
+        dfs(0)
+        return all(visited)
