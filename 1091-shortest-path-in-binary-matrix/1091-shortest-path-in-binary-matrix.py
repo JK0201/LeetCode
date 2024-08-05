@@ -16,7 +16,7 @@ class Solution:
 
         while q:
             cur_r, cur_c, dist = q.popleft()
-
+            
             if cur_r == row - 1 and cur_c == col - 1:
                 shortest_path = dist
                 break
