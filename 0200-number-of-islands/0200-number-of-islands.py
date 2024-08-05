@@ -1,5 +1,3 @@
-from collections import deque
-
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         cnt = 0
@@ -7,29 +5,22 @@ class Solution:
         col = len(grid[0])
         visited = [[False] * col for _ in range(row)]
 
-        def bfs(r, c):
+        def dfs(cur_r, cur_c):
             directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-            visited[r][c] = True
+            visited[cur_r][cur_c] = True
 
-            q = deque()
-            q.append((r, c))
+            for dr, dc in directions:
+                next_r = cur_r + dr
+                next_c = cur_c + dc
 
-            while q:
-                cur_r, cur_c = q.popleft()
-
-                for dr, dc in directions:
-                    next_r = cur_r + dr
-                    next_c = cur_c + dc
-
-                    if 0 <= next_r < row and 0 <= next_c < col:
-                        if grid[next_r][next_c] == '1' and not visited[next_r][next_c]:
-                            visited[next_r][next_c] = True
-                            q.append((next_r, next_c))
+                if 0 <= next_r < row and 0 <= next_c < col:
+                    if grid[next_r][next_c] == '1' and not visited[next_r][next_c]:
+                        dfs(next_r, next_c)
 
         for r in range(row):
             for c in range(col):
                 if grid[r][c] == '1' and not visited[r][c]:
-                    bfs(r, c)
+                    dfs(r, c)
                     cnt += 1
 
         return cnt
