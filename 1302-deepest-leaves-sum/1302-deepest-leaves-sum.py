@@ -1,21 +1,23 @@
 class Solution:
     def deepestLeavesSum(self, root: Optional[TreeNode]) -> int:
-        def postorder(cur_root):
+        max_depth = 0
+        total = 0
+
+        def preorder(cur_root, cur_depth):
+            nonlocal max_depth, total
+
             if cur_root == None:
-                return (0, 0)
+                return
 
-            left_val, left_depth = postorder(cur_root.left)
-            right_val, right_depth = postorder(cur_root.right)
+            if cur_depth > max_depth:
+                max_depth = cur_depth
+                total = cur_root.val
 
-            if left_depth == 0 and right_depth == 0:
-                return (cur_root.val, 1)
+            elif cur_depth == max_depth:
+                total += cur_root.val
 
-            elif left_depth > right_depth:
-                return (left_val, left_depth + 1)
+            preorder(cur_root.left, cur_depth + 1)
+            preorder(cur_root.right, cur_depth + 1)
 
-            elif left_depth < right_depth:
-                return (right_val, right_depth + 1)
-
-            return (left_val + right_val, left_depth + 1)
-
-        return postorder(root)[0]
+        preorder(root, 0)
+        return total
