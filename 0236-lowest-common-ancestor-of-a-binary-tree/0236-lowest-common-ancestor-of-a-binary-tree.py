@@ -1,19 +1,18 @@
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        if root == None:
-            return
+        def postorder(cur_node):
+            if cur_node == None:
+                return
 
-        left_node = self.lowestCommonAncestor(root.left, p, q)
-        right_node = self.lowestCommonAncestor(root.right, p, q)
+            left = postorder(cur_node.left)
+            right = postorder(cur_node.right)
 
-        if root == p or root == q:
-            return root
+            if cur_node == p or cur_node == q:
+                return cur_node
 
-        if left_node and right_node:
-            return root
+            elif left and right:
+                return cur_node
 
-        elif left_node and not right_node:
-            return left_node
-
-        elif right_node and not left_node:
-            return right_node
+            return left or right
+        
+        return postorder(root)
