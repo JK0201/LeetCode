@@ -1,31 +1,18 @@
+from collections import deque
+
 class Solution:
     def islandPerimeter(self, grid: List[List[int]]) -> int:
         cnt = 0
         row, col = len(grid), len(grid[0])
-        visited = [[False] * col for _ in range(row)]
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-
-        def dfs(cur_r, cur_c):
-            nonlocal cnt
-            visited[cur_r][cur_c] = True
-
-            for dr, dc in directions:
-                next_r = cur_r + dr
-                next_c = cur_c + dc
-
-                if 0 <= next_r < row and 0 <= next_c < col:
-                    if grid[next_r][next_c] == 0:
-                        cnt += 1
-
-                    elif grid[next_r][next_c] == 1 and not visited[next_r][next_c]:
-                        dfs(next_r, next_c)
-
-                else:
-                    cnt += 1
 
         for r in range(row):
             for c in range(col):
-                if grid[r][c] == 1 and not visited[r][c]:
-                    dfs(r, c)
+                if grid[r][c] == 1:
+                    for dr, dc in directions:
+                        next_r = r + dr
+                        next_c = c + dc
 
+                        if next_r < 0 or next_r >= row or next_c < 0 or next_c >= col or grid[next_r][next_c] == 0:
+                            cnt += 1
         return cnt
