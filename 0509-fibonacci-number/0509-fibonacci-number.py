@@ -1,16 +1,8 @@
 class Solution:
     def fib(self, n: int) -> int:
-        if n == 0:
-            return 0
+        memo = {0:0, 1:1, 2:1}
 
-        memo = {}
-        def fibo(n):
-            if n == 1 or n == 2:
-                return 1
+        for i in range(3, n+1):
+            memo[i] = memo[i-1] + memo[i-2]
 
-            if n not in memo:
-                memo[n] = fibo(n-1) + fibo(n-2)
-
-            return memo[n]
-
-        return fibo(n)
+        return memo[n]
