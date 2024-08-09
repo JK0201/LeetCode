@@ -1,17 +1,8 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        memo = {}
+        memo = {1:1, 2:2}
 
-        def cs(n):
-            if n == 1:
-                return 1
+        for i in range(3, n+1):
+            memo[i] = memo[i-1] + memo[i-2]
 
-            if n == 2:
-                return 2
-
-            if n not in memo:
-                memo[n] = cs(n-1) + cs(n-2)
-
-            return memo[n]
-
-        return cs(n)
+        return memo[n]
