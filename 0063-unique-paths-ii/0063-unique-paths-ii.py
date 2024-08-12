@@ -3,25 +3,26 @@ class Solution:
         if obstacleGrid[0][0] or obstacleGrid[-1][-1] == 1:
             return 0
         
-        r = len(obstacleGrid)
-        c = len(obstacleGrid[0])
-        memo = {}
+        row = len(obstacleGrid)
+        col = len(obstacleGrid[0])
+        memo = [[0] * col for _ in range(row)]
 
-        def dp(r, c):
-            if r == 0 and c == 0:
-                memo[(r, c)] = 1
-                return memo[(r, c)]
+        for r in range(row):
+            if obstacleGrid[r][0] == 1:
+                break
+            memo[r][0] = 1
 
-            if (r, c) not in memo:
-                paths = 0
-                if r > 0 and obstacleGrid[r-1][c] != 1:
-                    paths += dp(r-1, c)
+        for c in range(col):
+            if obstacleGrid[0][c] == 1:
+                break
+            memo[0][c] = 1
 
-                if c > 0 and obstacleGrid[r][c-1] != 1:
-                    paths += dp(r, c-1)
+        for r in range(1, row):
+            for c in range(1, col):
+                if obstacleGrid[r][c] != 1:
+                    memo[r][c] = memo[r-1][c] + memo[r][c-1]
 
-                memo[(r, c)] = paths
+                else: 
+                    obstacleGrid[r][c] = 0
 
-            return memo[(r, c)]
-
-        return dp(r-1, c-1)
+        return memo[row-1][col-1]
