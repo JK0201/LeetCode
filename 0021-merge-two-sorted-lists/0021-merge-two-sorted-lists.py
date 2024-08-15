@@ -11,7 +11,7 @@ class Solution:
                 tail.next = list2
                 tail, list2 = tail.next, list2.next
 
-        if list1 or list2
+        if list1 or list2:
             tail.next = list1 if list1 else list2
 
         return head.next
