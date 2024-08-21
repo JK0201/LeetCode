@@ -1,8 +1,16 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        memo = {1:1, 2:2}
+        memo = {}
+        def dfs(n):
+            if n == 1:
+                return 1
 
-        for i in range(3, n+1):
-            memo[i] = memo[i-1] + memo[i-2]
+            if n == 2:
+                return 2
 
-        return memo[n]
+            if n not in memo:
+                memo[n] = dfs(n-1) + dfs(n-2)
+            
+            return memo[n]
+
+        return dfs(n)
