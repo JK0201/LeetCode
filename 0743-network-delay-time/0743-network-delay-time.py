@@ -1,34 +1,27 @@
+from collections import defaultdict
+import heapq
+
 class Solution:
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
-        visited = [False] * n
-        graph = {k + 1 : [] for k in range(n)}
-        
+        graph = defaultdict(list)
         for t in times:
             graph[t[0]].append((t[2], t[1]))
 
-        def dijkstra(graph, start):
-            costs = {}
-            pq = []
-            visited[start-1] = True
-            heapq.heappush(pq, (0, start))
+        costs = {}
+        pq = []
+        heapq.heappush(pq, (0, k))
 
-            while pq:
-                cur_cost, cur_v = heapq.heappop(pq)
-                if cur_v not in costs:
-                    costs[cur_v] = cur_cost
+        while pq:
+            cur_cost, cur_v = heapq.heappop(pq)
+            if cur_v not in costs:
+                costs[cur_v] = cur_cost
 
-                    for cost, next_v in graph[cur_v]:
-                        next_cost = cur_cost + cost
-                        visited[next_v-1] = True
-                        heapq.heappush(pq, (next_cost, next_v))
+                for cost, next_v in graph[cur_v]:
+                    next_cost = cur_cost + cost
+                    heapq.heappush(pq, (next_cost, next_v))
 
-            return costs
+        for i in range(1, n+1):
+            if i not in costs:
+                return -1
 
-        costs = dijkstra(graph, k)        
-        
-        falseCnt = visited.count(False)
-        if falseCnt > 0:
-            return -1
-
-        else:
-            return max(costs.values())
+        return max(costs.values())
