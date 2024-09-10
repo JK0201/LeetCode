@@ -18,9 +18,10 @@ class Solution:
                     costs[cur_v] = cur_cost
 
                     for cost, next_v in graph[cur_v]:
-                        next_cost = cur_cost + cost
-                        visited[next_v-1] = True
-                        heapq.heappush(pq, (next_cost, next_v))
+                        if not visited[next_v-1]:
+                            next_cost = cur_cost + cost
+                            visited[next_v-1] = True
+                            heapq.heappush(pq, (next_cost, next_v))
 
             return costs
 
